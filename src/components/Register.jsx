@@ -6,18 +6,22 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
 
+import Spinner from "./spinner";
+
 const Register = () => {
   const [email, setEmail] = useState("");
   const [fullname, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
   const [succesMsg, setSuccesMsg] = useState(null);
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setErrorMsg(null);
     setSuccesMsg(null);
+    setLoading(true)
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -37,13 +41,13 @@ const Register = () => {
         },
       ]);
       if (profileError) {
-        console.log("Inser Profile Error", profileError?.message)
         setErrorMsg(`Gagal Simpan Profil: ${profileError.message}`);
         return;
       }
     }
 
-    setSuccesMsg("Registrasi Berhasil! Silahkah Login.");
+    setSuccesMsg("Registrasi Berhasil! Silahkan Login.");
+    setLoading(false)
     setTimeout(() => {
       navigate("/login");
     }, 2000);
@@ -111,7 +115,7 @@ const Register = () => {
                 type="submit"
                 className="bg-primary-text text-white hover:bg-transparent hover:text-primary-text border font-medium px-4 py-2 rounded-xl text-sm transition cursor-pointer min-w-md"
               >
-                Sign Up
+                {loading ? <Spinner /> : "Sign Up"}
               </button>
             </div>
           </form>
