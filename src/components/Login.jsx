@@ -53,7 +53,7 @@ const Login = () => {
     setFullName(fullname);
     setLoading(false);
     setTimeout(() => {
-      navigate("/");
+      navigate("/app/dashboard");
     }, 2000);
   };
 
