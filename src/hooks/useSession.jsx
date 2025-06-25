@@ -13,7 +13,6 @@ const useSession = () => {
       
       setSession(session);
       setLoading(false);
-      console.log("SSESION useSession", session)
     };
 
     getSession()
