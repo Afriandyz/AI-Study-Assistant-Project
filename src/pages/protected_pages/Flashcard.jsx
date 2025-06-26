@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import FlashcardForm from "../../components/FlashcardForm";
+import GeneratedFlashcards from "../../components/GeneratedFlashcards";
 
 const Flashcard = () => {
   const [flashcards, setFlashcards] = useState([]);
@@ -51,6 +52,11 @@ const Flashcard = () => {
       )}
 
       <FlashcardForm onAdd={fetchingFlashcards} />
+      <GeneratedFlashcards
+        onGenerate={(flashcards) => {
+          console.log("Dari AI: ", flashcards);
+        }}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
         {flashcards.map((card, index) => (
