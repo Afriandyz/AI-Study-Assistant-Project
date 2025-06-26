@@ -26,6 +26,20 @@ const Flashcard = () => {
     fetchingFlashcards();
   }, []);
 
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("Yakin ingin menghapus flashcard ini?.");
+    if (!confirm) return;
+
+    const { error } = await supabase.from("flashcards").delete().eq("id", id);
+
+    if (error) {
+      alert("Gagal menghapus flashcard.");
+      console.error(error.message);
+    } else {
+      fetchingFlashcards();
+    }
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Flashcards Saya</h1>
@@ -44,6 +58,12 @@ const Flashcard = () => {
             key={index}
             className="bg-white p-4 rounded-xl shadow hover:shadow-md transition"
           >
+            <button
+              onClick={() => handleDelete(card.id)}
+              className="text-red-500 hover:text-red-700 text-sm cursor-pointer"
+            >
+              Delete
+            </button>
             <p className="text-sm text-gray-600">
               <strong>Q:</strong> {card.question}
             </p>
